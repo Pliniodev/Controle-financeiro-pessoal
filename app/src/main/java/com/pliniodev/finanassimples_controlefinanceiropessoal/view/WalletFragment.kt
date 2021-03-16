@@ -1,0 +1,102 @@
+package com.pliniodev.finanassimples_controlefinanceiropessoal.view
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.pliniodev.finanassimples_controlefinanceiropessoal.R
+import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.FragmentWalletBinding
+import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
+import com.pliniodev.finanassimples_controlefinanceiropessoal.view.adapter.TransactionAdapter
+import com.pliniodev.finanassimples_controlefinanceiropessoal.view.listener.TransactionListener
+import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.WalletViewModel
+
+class WalletFragment : Fragment() {
+    /**
+     * Fragment onde estão listadas todas as contas
+     */
+    //binding fragment
+    private var root: FragmentWalletBinding? = null
+    private val binding get() = root!!
+
+    private lateinit var mViewModel: WalletViewModel
+    private val mAdapter: TransactionAdapter = TransactionAdapter()
+    private lateinit var mListener: TransactionListener
+    private var mCurrency = ""
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
+
+        //obs root que armazena a criação do layout
+        root = FragmentWalletBinding.inflate(inflater, container, false)
+        //RecyclerView
+        //1º Obter a recyclerView
+        val recycler = binding.root.findViewById<RecyclerView>(R.id.wallet_recycler)
+
+        //2º Definir um layout
+        recycler.layoutManager = LinearLayoutManager(context)
+
+        //3º - Definir um adapter
+        recycler.adapter = mAdapter
+
+        //implementação do listener
+        mListener = object :TransactionListener{
+            override fun onCLick(id: Int) {
+                val intent = Intent(context, RegisterActivity::class.java)
+
+                //utilizando o Bundle() é possível a passagem de parâmetros entre activities
+                val bundle = Bundle()
+                bundle.putInt(TRANSACTIONID, id)
+
+                intent.putExtras(bundle)
+                startActivity(intent)
+            }
+
+            override fun onDelete(id: Int) {
+                mViewModel.delete(id)
+                mViewModel.load()
+            }
+        }
+
+        defineCurrency()
+        mAdapter.attachListener(mListener)
+
+        observer()
+
+        return binding.root
+    }
+
+    private fun defineCurrency() {
+        mCurrency = "R$"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.load()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        root = null
+    }
+
+    private fun observer() {
+        mViewModel.transactionList.observe(viewLifecycleOwner, Observer {
+            mAdapter.updateTransactions(it)
+        })
+        mViewModel.totalWallet.observe(viewLifecycleOwner, Observer {
+            binding.textTotalWallet.text = mCurrency + it.toString()
+        })
+
+    }
+}
