@@ -32,6 +32,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
       price: Double,
       category: String,
       dueDate: String,
+      month: Int,
       paidOut: Boolean,
       observation: String
    ) {
@@ -43,6 +44,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
          this.price = price
          this.category = category
          this.dueDate = dueDate
+         this.dueDateMonth = month
          this.paidOut = paidOut
          this.observation = observation
       }

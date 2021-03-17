@@ -29,6 +29,9 @@ class TransactionModel {
     @ColumnInfo(name = "dueDate")
     var dueDate: String =""
 
+    @ColumnInfo(name = "dueDateMonth")
+    var dueDateMonth: Int = 0
+
     @ColumnInfo(name = "paidOut")
     var paidOut: Boolean = false
 

@@ -31,10 +31,14 @@ class TransactionRepository (context: Context){
     }
 
     fun update(transaction: TransactionModel): Boolean {
-        return mDatabase.update(transaction) > 0 // (>0) refere-se a : se atualizar mais q uma linh, faça
+        return mDatabase.update(transaction) > 0 // (>0) refere-se a : se atualizar mais q 0 linh, faça
     }
 
     fun delete(transaction: TransactionModel){
         mDatabase.delete(transaction)
+    }
+
+    fun getTransactionCurrentMonth(month: Int): List<TransactionModel> {
+        return mDatabase.getMonth(month)
     }
 }

@@ -21,4 +21,7 @@ interface TransactionDAO {
     @Query("SELECT * FROM Expense")//Retorna todos os convidados
     fun getAll(): List<TransactionModel>
 
+    @Query("SELECT * FROM Expense WHERE dueDateMonth = :month")
+    fun getMonth(month: Int): List<TransactionModel>
+
 }

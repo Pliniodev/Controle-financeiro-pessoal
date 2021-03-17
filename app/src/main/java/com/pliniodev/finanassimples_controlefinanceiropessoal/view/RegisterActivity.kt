@@ -3,6 +3,7 @@ package com.pliniodev.finanassimples_controlefinanceiropessoal.view
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -10,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityRegisterBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
-import com.pliniodev.finanassimples_controlefinanceiropessoal.service.model.TransactionModel
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.RegisterViewModel
+import org.joda.time.DateTime
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,6 +25,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mViewModel: RegisterViewModel
     private var mTransactionId: Int = 0
+    private var mMes = 0
 
 //    private lateinit var transaction: TransactionModel
 
@@ -66,6 +68,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         mViewModel.transaction.observe(this, Observer {
+            //ao atualizar os campos recebem a data do objeto selecionado
+            binding.radioExpense.isChecked = it.transactionType
+            binding.editName.setText(it.name)
+            binding.editDescription.setText(it.description)
+            binding.editPrice.setText(it.price.toString())
+            binding.editCategory.setText(it.category)
+            binding.editDate.setText(it.dueDate)
+            binding.switchPay.isChecked = it.paidOut
+            binding.observationExtra.setText(it.observation)
+
 //            edit_name.setText(it.name)
 //            if(it.presence) {
 //                radio_presence.isChecked = true
@@ -96,6 +108,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                 mCalendar.set(Calendar.MONTH, monthOfYear)
                 mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateInView()
+                getMonthTransaction()
             }
 
         val id = view.id
@@ -121,14 +134,28 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val price = binding.editPrice.text.toString().toDouble()
             val category = binding.editCategory.text.toString()
             val dueDate = binding.editDate.text.toString()
+            val month = mMes
             val paidOut = binding.switchPay.isChecked
-            val observation = binding.observationExtra.toString()
+            val observation = binding.observationExtra.text.toString()
 
             mViewModel.save(mTransactionId, transactionType, name, description, price, category,
-                    dueDate, paidOut, observation)
+                    dueDate, month, paidOut, observation)
         }
 
     }
+
+    private fun getMonthTransaction() {
+        val myFormat = "MM"
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        val date = sdf.format(mCalendar.time)
+        this.mMes = date.toInt()
+        Log.i("TEste mes: ", "" + mMes)
+    }
+
+//    private fun getCurrentMonth(): Int{
+//        val now = DateTime()
+//        return now.monthOfYear
+//    }
 }
 
 
