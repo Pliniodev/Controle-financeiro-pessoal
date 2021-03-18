@@ -23,4 +23,6 @@
     <string name="deseja_remover">Deseja deletar esta transação?</string>
     <string name="remover">deletar</string>
     <string name="cancelar">cancelar</string>
+    <string name="last_month">Mês Anterior</string>
+    <string name="next_month">Próximo Mês</string>
 </resources>

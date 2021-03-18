@@ -16,8 +16,13 @@ import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.
 import com.pliniodev.finanassimples_controlefinanceiropessoal.view.adapter.TransactionAdapter
 import com.pliniodev.finanassimples_controlefinanceiropessoal.view.listener.TransactionListener
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.WalletViewModel
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+import java.util.*
 
-class WalletFragment : Fragment() {
+
+class WalletFragment : Fragment(), View.OnClickListener {
     /**
      * Fragment onde estão listadas todas as contas
      */
@@ -29,6 +34,8 @@ class WalletFragment : Fragment() {
     private val mAdapter: TransactionAdapter = TransactionAdapter()
     private lateinit var mListener: TransactionListener
     private var mCurrency = ""
+    private var countMonth = 0
+    private val mDateTime = DateTime()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +56,20 @@ class WalletFragment : Fragment() {
         //3º - Definir um adapter
         recycler.adapter = mAdapter
 
+
         //implementação do listener
-        mListener = object :TransactionListener{
+        setListeners()
+        defineCurrency()
+        mAdapter.attachListener(mListener)
+
+        observer()
+
+
+        return binding.root
+    }
+
+    private fun setListeners() {
+        mListener = object : TransactionListener {
             override fun onCLick(id: Int) {
                 val intent = Intent(context, RegisterActivity::class.java)
 
@@ -64,17 +83,16 @@ class WalletFragment : Fragment() {
 
             override fun onDelete(id: Int) {
                 mViewModel.delete(id)
-                mViewModel.load()
+                mViewModel.load(mDateTime.monthOfYear)
             }
         }
 
-        defineCurrency()
-        mAdapter.attachListener(mListener)
+        binding.buttonLastMonth.setOnClickListener(this)
+        binding.buttonNextMonth.setOnClickListener(this)
 
-        observer()
-
-        return binding.root
     }
+
+
 
     private fun defineCurrency() {
         mCurrency = "R$"
@@ -82,7 +100,7 @@ class WalletFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mViewModel.load()
+        mViewModel.load(mDateTime.monthOfYear)
     }
 
     override fun onDestroy() {
@@ -99,4 +117,28 @@ class WalletFragment : Fragment() {
         })
 
     }
+
+    override fun onClick(view: View) {
+        val id = view.id
+        if (id == R.id.button_next_month) {
+
+            countMonth++
+            mDateTime.plusMonths(countMonth).monthOfYear()
+
+        } else if (id == R.id.button_last_month) {
+
+            countMonth--
+            mDateTime.plusMonths(countMonth).monthOfYear()
+
+        }
+        val selectedMonth = mDateTime.plusMonths(countMonth)
+        val fmt: DateTimeFormatter = DateTimeFormat.forPattern("MMM, yyyy")
+        val portugueseFmt = fmt.withLocale(Locale("pt","BR"))
+
+        binding.textCurrentDate.text = selectedMonth.toString(portugueseFmt)
+
+        mViewModel.load(selectedMonth.monthOfYear)
+    }
+
+
 }
