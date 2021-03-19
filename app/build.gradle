@@ -54,10 +54,19 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
     implementation 'androidx.room:room-runtime:2.2.6'
     kapt 'androidx.room:room-compiler:2.2.6'
-    testImplementation 'junit:junit:4.13.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //jodaTime
     implementation 'joda-time:joda-time:2.10.10'
+
+    //testes
+    testImplementation 'junit:junit:4.13.2'
+
+    testImplementation "com.nhaarman.mockitokotlin-kt1.1:1.6.0"
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.19.0'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+
 }

@@ -1,10 +1,12 @@
 package com.pliniodev.finanassimples_controlefinanceiropessoal.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +31,6 @@ class WalletFragment : Fragment(), View.OnClickListener {
     //binding fragment
     private var root: FragmentWalletBinding? = null
     private val binding get() = root!!
-
     private lateinit var mViewModel: WalletViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
     private lateinit var mListener: TransactionListener
@@ -63,9 +64,14 @@ class WalletFragment : Fragment(), View.OnClickListener {
         mAdapter.attachListener(mListener)
 
         observer()
+        initUi()
 
 
         return binding.root
+    }
+
+    private fun initUi() {
+        setTextDate(mDateTime.plusMonths(countMonth))//inicializa o texto da data
     }
 
     private fun setListeners() {
@@ -89,10 +95,8 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
         binding.buttonLastMonth.setOnClickListener(this)
         binding.buttonNextMonth.setOnClickListener(this)
-
+        binding.buttonSomeDetails.setOnClickListener(this)
     }
-
-
 
     private fun defineCurrency() {
         mCurrency = "R$"
@@ -115,7 +119,12 @@ class WalletFragment : Fragment(), View.OnClickListener {
         mViewModel.totalWallet.observe(viewLifecycleOwner, Observer {
             binding.textTotalWallet.text = mCurrency + it.toString()
         })
-
+        mViewModel.monthExpense.observe(viewLifecycleOwner, Observer {
+            binding.totalMonthExpense.text = mCurrency + it.toString()
+        })
+        mViewModel.monthIncome.observe(viewLifecycleOwner, Observer {
+            binding.totalMonthIncome.text = mCurrency + it.toString()
+        })
     }
 
     override fun onClick(view: View) {
@@ -123,22 +132,34 @@ class WalletFragment : Fragment(), View.OnClickListener {
         if (id == R.id.button_next_month) {
 
             countMonth++
-            mDateTime.plusMonths(countMonth).monthOfYear()
 
         } else if (id == R.id.button_last_month) {
 
             countMonth--
-            mDateTime.plusMonths(countMonth).monthOfYear()
 
+        } else if (id == R.id.button_some_details) {
+            if (binding.textMonthTransactions.visibility == View.GONE) {
+                binding.textMonthTransactions.visibility = View.VISIBLE
+                binding.viewSomeDetailsExtra.visibility = View.VISIBLE
+                binding.buttonSomeDetails.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.ic_close_some_details_24))
+            } else {
+                binding.textMonthTransactions.visibility = View.GONE
+                binding.viewSomeDetailsExtra.visibility = View.GONE
+                binding.buttonSomeDetails.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(), R.drawable.ic_expand__some_details_24))
+            }
         }
-        val selectedMonth = mDateTime.plusMonths(countMonth)
-        val fmt: DateTimeFormatter = DateTimeFormat.forPattern("MMM, yyyy")
-        val portugueseFmt = fmt.withLocale(Locale("pt","BR"))
 
-        binding.textCurrentDate.text = selectedMonth.toString(portugueseFmt)
-
-        mViewModel.load(selectedMonth.monthOfYear)
+        setTextDate(mDateTime.plusMonths(countMonth))
+        mViewModel.load(mDateTime.plusMonths(countMonth).monthOfYear)
     }
 
-
+    fun setTextDate(month: DateTime) {
+        val fmt: DateTimeFormatter = DateTimeFormat.forPattern("MMM, yyyy")
+        val portugueseFmt = fmt.withLocale(Locale("pt","BR"))
+        binding.textCurrentDate.text = month.toString(portugueseFmt)
+    }
 }

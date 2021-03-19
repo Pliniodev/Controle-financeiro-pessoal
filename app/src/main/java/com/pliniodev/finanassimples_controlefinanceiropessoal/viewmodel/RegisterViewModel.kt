@@ -18,8 +18,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
    private var mTransaction = MutableLiveData<TransactionModel>()
    val transaction: LiveData<TransactionModel> = mTransaction
 
-
-
     fun load(mTransactionId: Int) {
          mTransaction.value = mTransactionRepository.get(mTransactionId)
     }
@@ -40,7 +38,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
          this.id = id
          this.transactionType = transactionType
          this.name = name
-         this.description =description
+         this.description = description
          this.price = price
          this.category = category
          this.dueDate = dueDate

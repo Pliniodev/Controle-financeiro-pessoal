@@ -25,4 +25,6 @@
     <string name="cancelar">cancelar</string>
     <string name="last_month">Mês Anterior</string>
     <string name="next_month">Próximo Mês</string>
+    <string name="pago">Pago</string>
+    <string name="pendente">Pendente</string>
 </resources>

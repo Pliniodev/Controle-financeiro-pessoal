@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.model.TransactionModel
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.repository.TransactionRepository
+import com.pliniodev.finanassimples_controlefinanceiropessoal.service.utils.Calculator
 
 class WalletViewModel(application: Application) : AndroidViewModel(application) {
 
     private val mTransactionRepository = TransactionRepository(application.applicationContext)
+    private val mCalc = Calculator()
 
     private val mTransactionList = MutableLiveData<List<TransactionModel>>()
     val transactionList: LiveData<List<TransactionModel>> = mTransactionList
@@ -17,30 +19,24 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     private val mTotalWallet = MutableLiveData<Double>()
     val totalWallet = mTotalWallet
 
+    private val mMonthIncome = MutableLiveData<Double>()
+    val monthIncome = mMonthIncome
+
+    private val mMonthExpense = MutableLiveData<Double>()
+    val monthExpense = mMonthExpense
+
     /**
      * Pega a lista de transações que foram realizadas neste mês e
-     * faz a conta do valor total que sobrou na carteira
+     *  faz a conta do valor total que sobrou na carteira,
+     *  Soma as transações do tipo despesa
+     *  Soma as transações do tipo receita
+     *  Carrega os resultados
      * */
     fun load(currentMonth: Int) {
-//        mTransactionList.value = mTransactionRepository.getAll()//pega todas as transações
-//        totalWallet.value = sumTransactions(mTransactionRepository.getAll())//soma todas as transações
-
         mTransactionList.value = mTransactionRepository.getTransactionCurrentMonth(currentMonth)//
-        totalWallet.value = sumTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
-    }
-
-
-
-    private fun sumTransactions(transactionList: List<TransactionModel>): Double {
-        var result = 0.0
-        for (transaction in transactionList) {
-            if (!transaction.transactionType){//se for despesa
-                result += transaction.price
-            } else {
-                result -= transaction.price
-            }
-        }
-        return result
+        totalWallet.value = mCalc.sumTotalTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
+        monthIncome.value = mCalc.sumIncomeTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
+        monthExpense.value = mCalc.sumExpenseTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
     }
 
     fun delete(id: Int) {

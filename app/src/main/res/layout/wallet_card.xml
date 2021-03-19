@@ -1,45 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="6dp"
+    android:layout_height="80dp"
+    android:layout_marginBottom="4dp"
     android:elevation="10dp"
     android:padding="8dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_name_transaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nome da conta"
+        <View
+            android:id="@+id/view_color_alert"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@color/green"
             />
 
-        <TextView
-            android:id="@+id/text_price_transaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Valor"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="10"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/paid_out_transaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="pago"/>
+            <TextView
+                android:id="@+id/text_name_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nome da conta"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_due_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vencimento" />
+
+            <TextView
+                android:id="@+id/text_transaction_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/shape_type_expense"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:text="Despesa" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/text_price_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="Valor"/>
+
+            <TextView
+                android:id="@+id/transaction_situation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="situação" />
+
+            <ImageView
+                android:id="@+id/img_transaction_situation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_not_paid_24"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
-
 
 
 

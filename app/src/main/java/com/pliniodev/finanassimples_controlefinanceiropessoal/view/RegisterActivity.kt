@@ -70,6 +70,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         mViewModel.transaction.observe(this, Observer {
             //ao atualizar os campos recebem a data do objeto selecionado
             binding.radioExpense.isChecked = it.transactionType
+            binding.radioIncome.isChecked = !it.transactionType
             binding.editName.setText(it.name)
             binding.editDescription.setText(it.description)
             binding.editPrice.setText(it.price.toString())
@@ -149,19 +150,5 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         val date = sdf.format(mCalendar.time)
         this.mMes = date.toInt()
-        Log.i("TEste mes: ", "" + mMes)
     }
-
-//    private fun getCurrentMonth(): Int{
-//        val now = DateTime()
-//        return now.monthOfYear
-//    }
 }
-
-
-
-//        //binding fragment
-
-//        //binding activity
-
-
