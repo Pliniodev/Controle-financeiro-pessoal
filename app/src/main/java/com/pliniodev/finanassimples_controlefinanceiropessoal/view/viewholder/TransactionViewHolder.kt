@@ -18,7 +18,6 @@ class TransactionViewHolder(itemView: View, val listener: TransactionListener): 
     private val textPrice : TextView = itemView.findViewById(R.id.text_price_transaction)
     private val textDueDate: TextView = itemView.findViewById(R.id.text_due_date)
     private val textTransactionType: TextView = itemView.findViewById(R.id.text_transaction_type)
-
     private val transactionSituation: TextView = itemView.findViewById(R.id.transaction_situation)
     private val cardView : CardView = itemView.findViewById(R.id.card_view)
     private val viewColorAlert: View = itemView.findViewById(R.id.view_color_alert)

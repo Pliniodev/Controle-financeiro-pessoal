@@ -16,9 +16,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
    val saveTransaction: LiveData<Boolean> = mSaveTransaction
 
    private var mTransaction = MutableLiveData<TransactionModel>()
-   val transaction: LiveData<TransactionModel> = mTransaction
+   val transactionToShow: LiveData<TransactionModel> = mTransaction
 
-    fun load(mTransactionId: Int) {
+    fun load(mTransactionId: Int) {//busca o registro através do id recebido pelo bundle na register activity
          mTransaction.value = mTransactionRepository.get(mTransactionId)
     }
 
@@ -34,7 +34,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
       paidOut: Boolean,
       observation: String
    ) {
-      val transaction = TransactionModel().apply {
+      val transactionToSave = TransactionModel().apply {
          this.id = id
          this.transactionType = transactionType
          this.name = name
@@ -47,9 +47,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
          this.observation = observation
       }
       if (id == 0) {
-         mSaveTransaction.value = mTransactionRepository.save(transaction)
+         mSaveTransaction.value = mTransactionRepository.save(transactionToSave)
       } else {
-         mSaveTransaction.value = mTransactionRepository.update(transaction)
+         mSaveTransaction.value = mTransactionRepository.update(transactionToSave)
       }
    }
 

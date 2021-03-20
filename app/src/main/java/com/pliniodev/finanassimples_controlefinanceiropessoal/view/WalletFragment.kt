@@ -77,7 +77,8 @@ class WalletFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         mListener = object : TransactionListener {
             override fun onCLick(id: Int) {
-                val intent = Intent(context, RegisterActivity::class.java)
+//                val intent = Intent(context, RegisterActivity::class.java)
+                val intent = Intent(context, DetailsActivity::class.java)
 
                 //utilizando o Bundle() é possível a passagem de parâmetros entre activities
                 val bundle = Bundle()

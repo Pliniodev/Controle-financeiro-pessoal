@@ -3,7 +3,6 @@ package com.pliniodev.finanassimples_controlefinanceiropessoal.view
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -12,23 +11,19 @@ import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityRegisterBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.RegisterViewModel
-import org.joda.time.DateTime
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
+
     /**
-     * Activitie onde é feito o registro de despesas e receitas do usuário
+     * Activitie onde são feitos os registros de despesas e receitas do usuário
      */
 
     private lateinit var binding: ActivityRegisterBinding
-
     private lateinit var mViewModel: RegisterViewModel
     private var mTransactionId: Int = 0
     private var mMes = 0
-
-//    private lateinit var transaction: TransactionModel
-
     private var mCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +39,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.switchPay.isChecked = false
         binding.radioExpense.isChecked = true//default value for transactionType
-
-
     }
 
     private fun loadData() {
@@ -67,8 +60,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         })
 
-        mViewModel.transaction.observe(this, Observer {
-            //ao atualizar os campos recebem a data do objeto selecionado
+        mViewModel.transactionToShow.observe(this, Observer {
+            //os campos recebem a data do objeto selecionado
             binding.radioExpense.isChecked = it.transactionType
             binding.radioIncome.isChecked = !it.transactionType
             binding.editName.setText(it.name)
@@ -78,13 +71,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             binding.editDate.setText(it.dueDate)
             binding.switchPay.isChecked = it.paidOut
             binding.observationExtra.setText(it.observation)
-
-//            edit_name.setText(it.name)
-//            if(it.presence) {
-//                radio_presence.isChecked = true
-//            } else {
-//                radio_absent.isChecked = true
-//            }
         })
     }
 

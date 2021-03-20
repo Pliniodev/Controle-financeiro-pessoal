@@ -6,7 +6,6 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -21,10 +20,19 @@
     <string name="save">Salvar</string>
     <string name="remove_transaction">Deletar transação?</string>
     <string name="deseja_remover">Deseja deletar esta transação?</string>
-    <string name="remover">deletar</string>
-    <string name="cancelar">cancelar</string>
+    <string name="remover">Remover</string>
+    <string name="cancelar">Cancelar</string>
     <string name="last_month">Mês Anterior</string>
     <string name="next_month">Próximo Mês</string>
+
     <string name="pago">Pago</string>
     <string name="pendente">Pendente</string>
+
+    <string name="desc_detail">Descrição:</string>
+    <string name="price_detail"> %1$s %2$s</string>
+    <string name="category_detail">Categoria: %1$s </string>
+    <string name="due_date_detail">Vencimento: %1$s</string>
+    <string name="update_paid_out_detail">Alterar para %1$s</string>
+
+
 </resources>
