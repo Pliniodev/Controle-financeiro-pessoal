@@ -1,18 +1,20 @@
 package com.pliniodev.finanassimples_controlefinanceiropessoal.view
 
 import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityDetailsBinding
-import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityRegisterBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants
+import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.DetailsViewModel
-import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.RegisterViewModel
 
 class DetailsActivity : AppCompatActivity(), View.OnClickListener{
 
@@ -20,6 +22,8 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var mViewModel: DetailsViewModel
     private var mTransactionId: Int = 0
     var mCurrency = "R$"
+    private var mPaidOut: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +32,16 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
 
         mViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
 
-
         setListeners()
         observe()
         loadData()
     }
 
+
     private fun setListeners() {
         binding.buttonDelete.setOnClickListener(this)
         binding.buttonEdit.setOnClickListener(this)
-
+        binding.buttonEditPaidOut.setOnClickListener(this)
     }
 
     private fun loadData() {
@@ -63,16 +67,30 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
             binding.textCategoryDetail.text = getString(R.string.category_detail,it.category)
             binding.textDueDateDetail.text = getString(R.string.due_date_detail,it.dueDate)
 
-            var textPaidOut = ""
+            val paid = getString(R.string.pago)
+            val notPaid = getString(R.string.pendente)
             if (it.paidOut) {
-                textPaidOut = "Pago"
                 binding.imgPaidOutDetail.setImageResource(R.drawable.ic_baseline_assignment_turned_in_24)
+                binding.buttonEditPaidOut.text = getString(R.string.update_paid_out_detail, notPaid)
+                binding.textSituationDetail.text = paid
+                mPaidOut = true
             } else {
-                textPaidOut = "Pendente"
                 binding.imgPaidOutDetail.setImageResource(R.drawable.ic_not_paid_24)
+                binding.buttonEditPaidOut.text = getString(R.string.update_paid_out_detail, paid)
+                binding.textSituationDetail.text = notPaid
+                mPaidOut = false
             }
-            binding.textSituationDetail.text = textPaidOut
+
             binding.textObs.setText(it.observation)
+        })
+
+        mViewModel.updatePaidOut.observe(this, Observer {
+            if (it){
+                mViewModel.load(mTransactionId)
+                Toast.makeText(this, "Atualizado com sucesso", Toast.LENGTH_SHORT).show()
+            } else{
+                Toast.makeText(this, "Erro ao atualizar", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
@@ -91,7 +109,18 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
                 .setNeutralButton(R.string.cancelar, null)
                 .show()
         } else if (id == R.id.button_edit) {
-            mViewModel.updatePaidOut(mTransactionId)
+
+            val intent = Intent(this, RegisterActivity::class.java)
+            val bundle = Bundle()
+            bundle.putInt(TRANSACTIONID, mTransactionId)
+
+            intent.putExtras(bundle)
+            startActivity(intent)
+            finish()
+
+        } else if (id == R.id.button_edit_paid_out) {
+            var paidOutInverted = !mPaidOut
+            mViewModel.updatePaidOut(paidOutInverted, mTransactionId)
         }
 
     }

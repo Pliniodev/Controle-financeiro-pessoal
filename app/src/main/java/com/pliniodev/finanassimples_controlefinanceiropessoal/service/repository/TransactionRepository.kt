@@ -34,6 +34,10 @@ class TransactionRepository (context: Context){
         return mDatabase.update(transaction) > 0 // (>0) refere-se a : se atualizar mais q 0 linh, faça
     }
 
+    fun updatePaidOut(paidOut: Boolean, id: Int) : Boolean{
+        return mDatabase.updatePaidOut(paidOut, id) > 0
+    }
+
     fun delete(transaction: TransactionModel){
         mDatabase.delete(transaction)
     }

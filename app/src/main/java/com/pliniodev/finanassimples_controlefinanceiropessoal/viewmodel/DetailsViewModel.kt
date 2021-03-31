@@ -14,17 +14,20 @@ class DetailsViewModel(application: Application): AndroidViewModel(application) 
     private var mTransaction = MutableLiveData<TransactionModel>()
     val transactionToShow: LiveData<TransactionModel> = mTransaction
 
+    private var mUpdatePaidOut = MutableLiveData<Boolean>()
+    val updatePaidOut: LiveData<Boolean> = mUpdatePaidOut
+
     fun load(mTransactionId: Int) {
         mTransaction.value = mTransactionRepository.get(mTransactionId)
     }
 
-    fun delete(mTransactionId: Int) {
-        val transaction: TransactionModel = mTransactionRepository.get(mTransactionId)
+    fun delete(id: Int) {
+        val transaction: TransactionModel = mTransactionRepository.get(id)
         mTransactionRepository.delete(transaction)
     }
 
-    fun updatePaidOut(mTransactionId: Int) {
-        TODO("Not yet implemented")
+    fun updatePaidOut(mPaidOut: Boolean, id: Int) {
+        mUpdatePaidOut.value = mTransactionRepository.updatePaidOut(mPaidOut,id)
     }
 
 

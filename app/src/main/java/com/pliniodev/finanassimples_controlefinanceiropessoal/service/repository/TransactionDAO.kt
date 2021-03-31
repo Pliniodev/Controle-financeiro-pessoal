@@ -10,18 +10,24 @@ interface TransactionDAO {
     fun save(transaction: TransactionModel): Long
 
     @Update
-    fun update(guest: TransactionModel): Int
+    fun update(transaction: TransactionModel): Int
+
+    @Query("UPDATE Transactions SET paidOut = :paidOut WHERE id = :id")
+    fun updatePaidOut(paidOut: Boolean, id: Int): Int
 
     @Delete
     fun delete(guest: TransactionModel)
 
-    @Query("SELECT * FROM Expense WHERE id = :id")
+    @Query("SELECT * FROM Transactions WHERE id = :id")
     fun get(id: Int): TransactionModel
 
-    @Query("SELECT * FROM Expense")//Retorna todos os convidados
+    @Query("SELECT * FROM Transactions")//Retorna todos os convidados
     fun getAll(): List<TransactionModel>
 
-    @Query("SELECT * FROM Expense WHERE dueDateMonth = :month")
+    @Query("SELECT * FROM Transactions WHERE transactionType = :transactionType")
+    fun getOneTypeTransaction(transactionType: Boolean): List<TransactionModel>
+
+    @Query("SELECT * FROM Transactions WHERE dueDateMonth = :month")
     fun getMonth(month: Int): List<TransactionModel>
 
 }

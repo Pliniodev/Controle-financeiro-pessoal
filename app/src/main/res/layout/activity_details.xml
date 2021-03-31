@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="nome"
+        android:layout_marginBottom="16dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -57,7 +58,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="center"
             android:background="#E8EAF6"
             android:orientation="vertical">
@@ -78,22 +79,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:gravity="center"
+            android:layout_weight="2"
             android:background="#E8EAF6"
-            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:gravity="center"
-                android:text="@string/update_paid_out_detail" />
+            <Button
+                android:id="@+id/button_edit_paid_out"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:backgroundTint="#94ACAEAF"
+                android:text="@string/update_paid_out_detail"/>
 
-            <ImageView
-                android:id="@+id/img_update_paid_out"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -105,10 +107,10 @@
         android:background="@color/design_default_color_primary" />
 
     <TextView
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:layout_marginTop="16dp"
         android:text="@string/desc_detail" />
 
     <EditText

@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 
@@ -38,18 +39,45 @@ class TransactionViewHolder(itemView: View, val listener: TransactionListener): 
             listener.onCLick(transaction.id)
         }
 
-        itemView.setOnLongClickListener {
-            AlertDialog.Builder(itemView.context)
-                .setTitle(R.string.remove_transaction)
-                .setMessage(R.string.deseja_remover)
-                .setPositiveButton(R.string.remover) {dialog, which ->
-                    listener.onDelete(transaction.id)
-                }
-                .setNeutralButton(R.string.cancelar, null)
-                .show()
+        val swipe: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
 
-            true
+            override fun onSwiped(
+                viewHolder: RecyclerView.ViewHolder,
+                swipeDir: Int
+            ) {
+                if (swipeDir == ItemTouchHelper.RIGHT){
+                    val position = viewHolder.adapterPosition
+//                    mViewModel.delete(position)
+//                    mAdapter.notifyItemRemoved(position)
+//                    listener.onDelete()
+                }
+            }
         }
+        val itemTouchHelper = ItemTouchHelper(swipe)
+//        itemTouchHelper.attachToRecyclerView(mRecyclerView)
+
+//        itemView.setOnLongClickListener {
+//            AlertDialog.Builder(itemView.context)
+//                .setTitle(R.string.remove_transaction)
+//                .setMessage(R.string.deseja_remover)
+//                .setPositiveButton(R.string.remover) {dialog, which ->
+//                    listener.onDelete(transaction.id)
+//                }
+//                .setNeutralButton(R.string.cancelar, null)
+//                .show()
+//
+//            true
+//        }
     }
 
     private fun isExpense(transactionType: Boolean) {

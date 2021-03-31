@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityRegisterBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.RegisterViewModel
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +28,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private var mMes = 0
     private var mCalendar = Calendar.getInstance()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -33,12 +36,19 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         mViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
+        loadData()
         setListeners()
         observe()
-        loadData()
+        setCategoryList()
 
         binding.switchPay.isChecked = false
         binding.radioExpense.isChecked = true//default value for transactionType
+    }
+
+    private fun setCategoryList() {
+        val categories = listOf("Consumo doméstico", "Cartão de crédito", "Educação", "Lazer")
+        val adapter = ArrayAdapter(this, R.layout.list_items, categories)
+        (binding.editCategory).setAdapter(adapter)
     }
 
     private fun loadData() {
@@ -68,14 +78,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             binding.editDescription.setText(it.description)
             binding.editPrice.setText(it.price.toString())
             binding.editCategory.setText(it.category)
-            binding.editDate.setText(it.dueDate)
+            binding.textEditDate.setText(it.dueDate)
             binding.switchPay.isChecked = it.paidOut
             binding.observationExtra.setText(it.observation)
         })
     }
 
     private fun setListeners() {
-        binding.editDate.setOnClickListener(this)
+        binding.textEditDate.setOnClickListener(this)
         binding.switchPay.setOnClickListener(this)
         binding.buttonSave.setOnClickListener(this)
     }
@@ -84,7 +94,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         val myFormat = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         val date = sdf.format(mCalendar.time)
-        binding.editDate.setText(date.toString())
+        binding.textEditDate.setText(date.toString())
     }
 
     override fun onClick(view: View) {
@@ -99,7 +109,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         val id = view.id
-        if (id == R.id.edit_date) {
+
+        if (id == R.id.text_edit_date) {
 
             DatePickerDialog(
                 this, dateSetListener,
@@ -110,17 +121,20 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         } else if (id == R.id.switch_pay) {
             if (binding.switchPay.isChecked){
-                binding.switchPay.text = "Pago"
+                binding.switchPay.text = getString(R.string.pago)
             } else{
-                binding.switchPay.text = "À Pagar"
+                binding.switchPay.text = getString(R.string.pendente)
             }
         } else if (id == R.id.button_save) {
             val transactionType = binding.radioExpense.isChecked
             val name = binding.editName.text.toString()
             val description = binding.editDescription.text.toString()
-            val price = binding.editPrice.text.toString().toDouble()
+
+            val df = DecimalFormat("###,###.##")
+            val price = df.format(binding.editPrice.text.toString().toDouble()).toDouble()
+
             val category = binding.editCategory.text.toString()
-            val dueDate = binding.editDate.text.toString()
+            val dueDate = binding.textEditDate.text.toString()
             val month = mMes
             val paidOut = binding.switchPay.isChecked
             val observation = binding.observationExtra.text.toString()
@@ -128,7 +142,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             mViewModel.save(mTransactionId, transactionType, name, description, price, category,
                     dueDate, month, paidOut, observation)
         }
-
     }
 
     private fun getMonthTransaction() {

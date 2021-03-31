@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".view.WalletFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_add_24"
+        android:backgroundTint="@color/design_default_color_primary"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/wallet_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="40dp" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -71,6 +83,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
+            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:gravity="center">
@@ -81,31 +94,31 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:src="@drawable/ic_expand__some_details_24"
-                android:tint="@color/design_default_color_primary"/>
+                android:tint="@color/design_default_color_primary" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
             android:background="@color/design_default_color_primary"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:text="Valor disponível: "
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="Valor disponível: "/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/text_total_wallet"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:text="valor"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:text="valor"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -158,9 +171,6 @@
                 android:textColor="@color/white"
                 android:text="0"/>
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 

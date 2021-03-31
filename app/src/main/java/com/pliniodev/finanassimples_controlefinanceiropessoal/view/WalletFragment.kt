@@ -1,6 +1,5 @@
 package com.pliniodev.finanassimples_controlefinanceiropessoal.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
@@ -37,25 +37,29 @@ class WalletFragment : Fragment(), View.OnClickListener {
     private var mCurrency = ""
     private var countMonth = 0
     private val mDateTime = DateTime()
+    private val mRecyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+
         mViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
 
         //obs root que armazena a criação do layout
         root = FragmentWalletBinding.inflate(inflater, container, false)
         //RecyclerView
         //1º Obter a recyclerView
-        val recycler = binding.root.findViewById<RecyclerView>(R.id.wallet_recycler)
+        val mRecyclerView = binding.root.findViewById<RecyclerView>(R.id.wallet_recycler)
 
         //2º Definir um layout
-        recycler.layoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = LinearLayoutManager(context)
 
         //3º - Definir um adapter
-        recycler.adapter = mAdapter
+        mRecyclerView.adapter = mAdapter
 
 
         //implementação do listener
@@ -65,7 +69,7 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
         observer()
         initUi()
-
+        configuraSwipe()
 
         return binding.root
     }
@@ -97,6 +101,7 @@ class WalletFragment : Fragment(), View.OnClickListener {
         binding.buttonLastMonth.setOnClickListener(this)
         binding.buttonNextMonth.setOnClickListener(this)
         binding.buttonSomeDetails.setOnClickListener(this)
+        binding.fab.setOnClickListener(this)
     }
 
     private fun defineCurrency() {
@@ -144,14 +149,20 @@ class WalletFragment : Fragment(), View.OnClickListener {
                 binding.viewSomeDetailsExtra.visibility = View.VISIBLE
                 binding.buttonSomeDetails.setImageDrawable(
                     ContextCompat.getDrawable(
-                        requireContext(), R.drawable.ic_close_some_details_24))
+                        requireContext(), R.drawable.ic_close_some_details_24
+                    )
+                )
             } else {
                 binding.textMonthTransactions.visibility = View.GONE
                 binding.viewSomeDetailsExtra.visibility = View.GONE
                 binding.buttonSomeDetails.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(), R.drawable.ic_expand__some_details_24))
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.ic_expand__some_details_24
+                    )
+                )
             }
+        } else if (id == R.id.fab) {
+            startActivity(Intent(activity, RegisterActivity::class.java))
         }
 
         setTextDate(mDateTime.plusMonths(countMonth))
@@ -160,7 +171,11 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
     fun setTextDate(month: DateTime) {
         val fmt: DateTimeFormatter = DateTimeFormat.forPattern("MMM, yyyy")
-        val portugueseFmt = fmt.withLocale(Locale("pt","BR"))
+        val portugueseFmt = fmt.withLocale(Locale("pt", "BR"))
         binding.textCurrentDate.text = month.toString(portugueseFmt)
+    }
+
+    private fun configuraSwipe() {
+
     }
 }
