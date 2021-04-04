@@ -8,7 +8,7 @@ Tecnologias aplicadas
 * Kotlin
 * Padrão MVVM
 * SQLite
-* Room
+* [Room](https://github.com/Pliniodev/Controlef-financeiro-pessoal/tree/main/app/src/main/java/com/pliniodev/finanassimples_controlefinanceiropessoal/service/repository)
 * Fragments
 * Teste unitários
 
