@@ -1,4 +1,4 @@
-package com.pliniodev.finanassimples_controlefinanceiropessoal.view
+package com.pliniodev.finanassimples_controlefinanceiropessoal.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.FragmentWalletBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
 import com.pliniodev.finanassimples_controlefinanceiropessoal.view.adapter.TransactionAdapter
+import com.pliniodev.finanassimples_controlefinanceiropessoal.view.activity.DetailsActivity
+import com.pliniodev.finanassimples_controlefinanceiropessoal.view.activity.RegisterActivity
 import com.pliniodev.finanassimples_controlefinanceiropessoal.view.listener.TransactionListener
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.WalletViewModel
 import org.joda.time.DateTime
@@ -46,11 +47,11 @@ class WalletFragment : Fragment(), View.OnClickListener {
     ): View? {
 
 
-
         mViewModel = ViewModelProvider(this).get(WalletViewModel::class.java)
 
         //obs root que armazena a criação do layout
         root = FragmentWalletBinding.inflate(inflater, container, false)
+
         //RecyclerView
         //1º Obter a recyclerView
         val mRecyclerView = binding.root.findViewById<RecyclerView>(R.id.wallet_recycler)
@@ -60,7 +61,6 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
         //3º - Definir um adapter
         mRecyclerView.adapter = mAdapter
-
 
         //implementação do listener
         setListeners()
@@ -81,10 +81,8 @@ class WalletFragment : Fragment(), View.OnClickListener {
     private fun setListeners() {
         mListener = object : TransactionListener {
             override fun onCLick(id: Int) {
-//                val intent = Intent(context, RegisterActivity::class.java)
                 val intent = Intent(context, DetailsActivity::class.java)
 
-                //utilizando o Bundle() é possível a passagem de parâmetros entre activities
                 val bundle = Bundle()
                 bundle.putInt(TRANSACTIONID, id)
 
@@ -106,6 +104,7 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
     private fun defineCurrency() {
         mCurrency = "R$"
+        //todo Acrescentar lógica para outras moedas
     }
 
     override fun onResume() {

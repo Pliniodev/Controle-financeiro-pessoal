@@ -1,8 +1,6 @@
-package com.pliniodev.finanassimples_controlefinanceiropessoal.view
+package com.pliniodev.finanassimples_controlefinanceiropessoal.view.activity
 
-import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration

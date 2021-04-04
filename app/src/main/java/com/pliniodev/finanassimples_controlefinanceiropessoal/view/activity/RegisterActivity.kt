@@ -1,4 +1,4 @@
-package com.pliniodev.finanassimples_controlefinanceiropessoal.view
+package com.pliniodev.finanassimples_controlefinanceiropessoal.view.activity
 
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -63,7 +63,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         mViewModel.saveTransaction.observe(this, Observer{
             if (it){
                 Toast.makeText(applicationContext, "Sucesso!", Toast.LENGTH_SHORT).show()
-
             } else {
                 Toast.makeText(applicationContext, "Falha!", Toast.LENGTH_SHORT).show()
             }

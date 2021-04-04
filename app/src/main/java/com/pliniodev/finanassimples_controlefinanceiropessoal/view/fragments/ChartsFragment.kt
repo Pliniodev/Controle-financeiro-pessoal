@@ -1,4 +1,4 @@
-package com.pliniodev.finanassimples_controlefinanceiropessoal.view
+package com.pliniodev.finanassimples_controlefinanceiropessoal.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
