@@ -1,6 +1,7 @@
 package com.pliniodev.finanassimples_controlefinanceiropessoal.service.utils
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,12 +21,15 @@ class CalculatorTest {
 
     private lateinit var transactionDAO: TransactionDAO
     private lateinit var db: RegisterDatabase
+    private var monthTest = 4
+    private val calc = Calculator()
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context, RegisterDatabase::class.java).build()
+        db = Room.databaseBuilder(
+//        db = Room.inMemoryDatabaseBuilder(
+            context, RegisterDatabase::class.java, "registerDB").build()
         transactionDAO = db.transactionDAO()
     }
 
@@ -37,16 +41,42 @@ class CalculatorTest {
 
     @Test
     @Throws(Exception::class)
-    fun testCalcula(){
-        var expense = transactionDAO.getOneTypeTransaction(true)
-        var income = transactionDAO.getOneTypeTransaction(false)
+    fun testCalcTotalTransactionInMonth(){
 
-        var expectedResult = income-expense
+        val expenses = transactionDAO.getOneTypeTransaction(true, monthTest)
+        val incomes = transactionDAO.getOneTypeTransaction(false,monthTest)
 
-        val calc = Calculator()
-        var totalSum = calc.sumTotalTransactions(transactionDAO.getAll())
+        var totalExpenseInMonth = 0.0
+        for(transaction: TransactionModel in expenses) {
+            totalExpenseInMonth += transaction.price
+        }
+
+        var totalIncomesInMonth = 0.0
+        for (transaction: TransactionModel in incomes) {
+            totalIncomesInMonth += transaction.price
+        }
+
+        val expectedResult = totalIncomesInMonth-totalExpenseInMonth
+
+        val totalSum = calc.sumTotalTransactionsInMonth(transactionDAO.getMonth(monthTest))
+
         assertEquals(expectedResult, totalSum)
 
         closeDb()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testCalcTotalIncomesInMonth() {
+        var expectedResult = 0.0
+
+        val incomes = transactionDAO.getOneTypeTransaction(false, monthTest)
+        for (transaction: TransactionModel in incomes) {
+            expectedResult += transaction.price
+        }
+
+        val totalIncome = calc.sumIncomeTransactions(transactionDAO.getMonth(monthTest))
+
+        assertEquals(expectedResult, totalIncome)
     }
 }

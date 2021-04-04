@@ -40,13 +40,13 @@ class RegisterTest {
     @Throws(Exception::class)
     fun testRegisterTransaction(){
         var t1 : TransactionModel = TransactionModel().apply {
-            transactionType = true
+            transactionType = false
             name = "Nome da receita de teste"
-            price = 100.0
+            price = 200.0
             description = "teste de descrição"
             category = "Conta simples"
-            dueDate = "11/03/21"
-            dueDateMonth = 3
+            dueDate = "11/04/21"
+            dueDateMonth = 4
             paidOut = true
             observation = "observação de teste 1"
 

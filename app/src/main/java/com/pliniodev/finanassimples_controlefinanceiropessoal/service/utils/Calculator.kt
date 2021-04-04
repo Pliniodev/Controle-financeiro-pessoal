@@ -4,7 +4,7 @@ import com.pliniodev.finanassimples_controlefinanceiropessoal.service.model.Tran
 
 class Calculator {
 
-    fun sumTotalTransactions(transactionList: List<TransactionModel>): Double {
+    fun sumTotalTransactionsInMonth(transactionList: List<TransactionModel>): Double {
         var result = 0.0
         for (transaction in transactionList) {
             if (!transaction.transactionType){//se for despesa

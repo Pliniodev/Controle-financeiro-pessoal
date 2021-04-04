@@ -34,7 +34,7 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
      * */
     fun load(currentMonth: Int) {
         mTransactionList.value = mTransactionRepository.getTransactionCurrentMonth(currentMonth)//
-        totalWallet.value = mCalc.sumTotalTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
+        totalWallet.value = mCalc.sumTotalTransactionsInMonth(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
         monthIncome.value = mCalc.sumIncomeTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
         monthExpense.value = mCalc.sumExpenseTransactions(mTransactionRepository.getTransactionCurrentMonth(currentMonth))
     }

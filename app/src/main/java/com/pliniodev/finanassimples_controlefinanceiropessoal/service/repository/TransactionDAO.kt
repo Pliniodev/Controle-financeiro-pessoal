@@ -21,11 +21,12 @@ interface TransactionDAO {
     @Query("SELECT * FROM Transactions WHERE id = :id")
     fun get(id: Int): TransactionModel
 
-    @Query("SELECT * FROM Transactions")//Retorna todos os convidados
+    @Query("SELECT * FROM Transactions")
     fun getAll(): List<TransactionModel>
 
-    @Query("SELECT * FROM Transactions WHERE transactionType = :transactionType")
-    fun getOneTypeTransaction(transactionType: Boolean): List<TransactionModel>
+    //seleciona transações por tipo (despesa, receita) de um determinado mês
+    @Query("SELECT * FROM Transactions WHERE transactionType = :transactionType AND dueDateMonth = :month")
+    fun getOneTypeTransaction(transactionType: Boolean, month: Int): List<TransactionModel>
 
     @Query("SELECT * FROM Transactions WHERE dueDateMonth = :month")
     fun getMonth(month: Int): List<TransactionModel>
