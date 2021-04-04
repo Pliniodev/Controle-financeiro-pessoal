@@ -6,7 +6,7 @@ Neste aplicativo estou experimentando alguns conhecimentos adquiridos em cursos 
 
 Tecnologias aplicadas
 * Kotlin
-* [Padrão MVVM] (https://github.com/Pliniodev/Controlef-financeiro-pessoal/tree/main/app/src/main/java/com/pliniodev/finanassimples_controlefinanceiropessoal)
+* [Padrão MVVM](https://github.com/Pliniodev/Controlef-financeiro-pessoal/tree/main/app/src/main/java/com/pliniodev/finanassimples_controlefinanceiropessoal)
 * SQLite
 * [Room](https://github.com/Pliniodev/Controlef-financeiro-pessoal/tree/main/app/src/main/java/com/pliniodev/finanassimples_controlefinanceiropessoal/service/repository)
 * [Fragments](https://github.com/Pliniodev/Controlef-financeiro-pessoal/tree/main/app/src/main/java/com/pliniodev/finanassimples_controlefinanceiropessoal/view/fragments)
