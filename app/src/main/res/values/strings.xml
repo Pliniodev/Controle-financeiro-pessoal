@@ -33,6 +33,7 @@
     <string name="category_detail">Categoria: %1$s </string>
     <string name="due_date_detail">Vencimento: %1$s</string>
     <string name="update_paid_out_detail">Alterar para %1$s</string>
+    <string name="situation">Situação: </string>
 
 
 </resources>

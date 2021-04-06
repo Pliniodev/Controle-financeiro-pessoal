@@ -38,7 +38,7 @@ class WalletFragment : Fragment(), View.OnClickListener {
     private var mCurrency = ""
     private var countMonth = 0
     private val mDateTime = DateTime()
-    private val mRecyclerView: RecyclerView? = null
+//    private val mRecyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

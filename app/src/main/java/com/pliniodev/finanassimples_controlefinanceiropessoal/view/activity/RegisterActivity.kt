@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.pliniodev.finanassimples_controlefinanceiropessoal.R
 import com.pliniodev.finanassimples_controlefinanceiropessoal.databinding.ActivityRegisterBinding
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.constants.TransactionConstants.Companion.TRANSACTIONID
+import com.pliniodev.finanassimples_controlefinanceiropessoal.service.utils.MoneyTextWatcher
 import com.pliniodev.finanassimples_controlefinanceiropessoal.viewmodel.RegisterViewModel
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,6 +27,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private var mTransactionId: Int = 0
     private var mMes = 0
     private var mCalendar = Calendar.getInstance()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +88,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         binding.textEditDate.setOnClickListener(this)
         binding.switchPay.setOnClickListener(this)
         binding.buttonSave.setOnClickListener(this)
+        binding.editPrice.addTextChangedListener(MoneyTextWatcher(binding.editPrice))
     }
 
     private fun updateDateInView() {
@@ -110,7 +112,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         val id = view.id
 
         if (id == R.id.text_edit_date) {
-
             DatePickerDialog(
                 this, dateSetListener,
                 mCalendar.get(Calendar.YEAR),
@@ -124,13 +125,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             } else{
                 binding.switchPay.text = getString(R.string.pendente)
             }
+
         } else if (id == R.id.button_save) {
             val transactionType = binding.radioExpense.isChecked
             val name = binding.editName.text.toString()
             val description = binding.editDescription.text.toString()
 
-            val df = DecimalFormat("###,###.##")
-            val price = df.format(binding.editPrice.text.toString().toDouble()).toDouble()
+//            val df = DecimalFormat("###,###.##")
+            val price = binding.editPrice.text.toString().toDouble()
 
             val category = binding.editCategory.text.toString()
             val dueDate = binding.textEditDate.text.toString()
