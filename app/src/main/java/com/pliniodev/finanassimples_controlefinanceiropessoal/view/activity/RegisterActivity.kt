@@ -19,7 +19,7 @@ import java.util.*
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     /**
-     * Activitie onde são feitos os registros de despesas e receitas do usuário
+     * Activity onde são feitos os registros de despesas e receitas do usuário
      */
 
     private lateinit var binding: ActivityRegisterBinding

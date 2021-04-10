@@ -15,22 +15,22 @@ data class TransactionModel (
     var transactionType: Boolean = true,
 
     @ColumnInfo(name = "name")
-    var name: String = "",
+    var name: String,
 
     @ColumnInfo(name = "description")
-    var description: String = "",
+    var description: String,
 
     @ColumnInfo(name = "price")
-    var price: Double = 0.0,
+    var price: Double,
 
     @ColumnInfo(name = "category")
-    var category: String = "",
+    var category: String,
 
     @ColumnInfo(name = "dueDate")
-    var dueDate: String ="",
+    var dueDate: String,
 
     @ColumnInfo(name = "dueDateMonth")
-    var dueDateMonth: Int = 0,
+    var dueDateMonth: Int,
 
     @ColumnInfo(name = "paidOut")
     var paidOut: Boolean = false,
