@@ -131,8 +131,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val name = binding.editName.text.toString()
             val description = binding.editDescription.text.toString()
 
-//            val df = DecimalFormat("###,###.##")
-            val price = binding.editPrice.text.toString().toDouble()
+            val price = binding.editPrice.text.toString()
 
             val category = binding.editCategory.text.toString()
             val dueDate = binding.textEditDate.text.toString()
@@ -140,8 +139,18 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val paidOut = binding.switchPay.isChecked
             val observation = binding.observationExtra.text.toString()
 
-            mViewModel.save(mTransactionId, transactionType, name, description, price, category,
-                    dueDate, month, paidOut, observation)
+            mViewModel.save(
+                mTransactionId,
+                transactionType,
+                name,
+                description,
+                price,
+                category,
+                dueDate,
+                month,
+                paidOut,
+                observation
+            )
         }
     }
 

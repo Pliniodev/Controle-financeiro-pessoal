@@ -27,25 +27,37 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
       transactionType: Boolean,
       name: String,
       description: String,
-      price: Double,
+      price: String,
       category: String,
       dueDate: String,
       month: Int,
       paidOut: Boolean,
       observation: String
    ) {
-      val transactionToSave = TransactionModel().apply {
-         this.id = id
-         this.transactionType = transactionType
-         this.name = name
-         this.description = description
-         this.price = price
-         this.category = category
-         this.dueDate = dueDate
-         this.dueDateMonth = month
-         this.paidOut = paidOut
-         this.observation = observation
-      }
+      val transactionToSave = TransactionModel(
+         id = id,
+         transactionType = transactionType,
+         name = name,
+         description = description,
+         price = price,
+         category = category,
+         dueDate = dueDate,
+         dueDateMonth = month,
+         paidOut = paidOut,
+         observation = observation,
+      )
+//         .apply {
+//         this.id = id
+//         this.transactionType = transactionType
+//         this.name = name
+//         this.description = description
+//         this.price = price
+//         this.category = category
+//         this.dueDate = dueDate
+//         this.dueDateMonth = month
+//         this.paidOut = paidOut
+//         this.observation = observation
+//      }
       if (id == 0) {
          mSaveTransaction.value = mTransactionRepository.save(transactionToSave)
       } else {

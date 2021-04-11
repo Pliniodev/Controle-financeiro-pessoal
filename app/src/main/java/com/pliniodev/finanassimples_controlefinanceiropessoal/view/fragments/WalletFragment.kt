@@ -35,7 +35,6 @@ class WalletFragment : Fragment(), View.OnClickListener {
     private lateinit var mViewModel: WalletViewModel
     private val mAdapter: TransactionAdapter = TransactionAdapter()
     private lateinit var mListener: TransactionListener
-    private var mCurrency = ""
     private var countMonth = 0
     private val mDateTime = DateTime()
 //    private val mRecyclerView: RecyclerView? = null
@@ -64,7 +63,6 @@ class WalletFragment : Fragment(), View.OnClickListener {
 
         //implementação do listener
         setListeners()
-        defineCurrency()
         mAdapter.attachListener(mListener)
 
         observer()
@@ -102,11 +100,6 @@ class WalletFragment : Fragment(), View.OnClickListener {
         binding.fab.setOnClickListener(this)
     }
 
-    private fun defineCurrency() {
-        mCurrency = "R$"
-        //todo Acrescentar lógica para outras moedas
-    }
-
     override fun onResume() {
         super.onResume()
         mViewModel.load(mDateTime.monthOfYear)
@@ -122,13 +115,13 @@ class WalletFragment : Fragment(), View.OnClickListener {
             mAdapter.updateTransactions(it)
         })
         mViewModel.totalWallet.observe(viewLifecycleOwner, Observer {
-            binding.textTotalWallet.text = mCurrency + it.toString()
+            binding.textTotalWallet.text = it.toString()
         })
         mViewModel.monthExpense.observe(viewLifecycleOwner, Observer {
-            binding.totalMonthExpense.text = mCurrency + it.toString()
+            binding.totalMonthExpense.text = it.toString()
         })
         mViewModel.monthIncome.observe(viewLifecycleOwner, Observer {
-            binding.totalMonthIncome.text = mCurrency + it.toString()
+            binding.totalMonthIncome.text = it.toString()
         })
     }
 
@@ -137,11 +130,11 @@ class WalletFragment : Fragment(), View.OnClickListener {
         if (id == R.id.button_next_month) {
 
             countMonth++
-
+            mViewModel.load(mDateTime.plusMonths(countMonth).monthOfYear)
         } else if (id == R.id.button_last_month) {
 
             countMonth--
-
+            mViewModel.load(mDateTime.plusMonths(countMonth).monthOfYear)
         } else if (id == R.id.button_some_details) {
             if (binding.textMonthTransactions.visibility == View.GONE) {
                 binding.textMonthTransactions.visibility = View.VISIBLE
@@ -165,7 +158,7 @@ class WalletFragment : Fragment(), View.OnClickListener {
         }
 
         setTextDate(mDateTime.plusMonths(countMonth))
-        mViewModel.load(mDateTime.plusMonths(countMonth).monthOfYear)
+
     }
 
     fun setTextDate(month: DateTime) {

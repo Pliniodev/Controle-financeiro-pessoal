@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.model.TransactionModel
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.repository.TransactionRepository
 import com.pliniodev.finanassimples_controlefinanceiropessoal.service.utils.Calculator
+import java.math.BigDecimal
 
 class WalletViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -16,13 +17,13 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     private val mTransactionList = MutableLiveData<List<TransactionModel>>()
     val transactionList: LiveData<List<TransactionModel>> = mTransactionList
 
-    private val mTotalWallet = MutableLiveData<Double>()
+    private val mTotalWallet = MutableLiveData<String>()
     val totalWallet = mTotalWallet
 
-    private val mMonthIncome = MutableLiveData<Double>()
+    private val mMonthIncome = MutableLiveData<String>()
     val monthIncome = mMonthIncome
 
-    private val mMonthExpense = MutableLiveData<Double>()
+    private val mMonthExpense = MutableLiveData<String>()
     val monthExpense = mMonthExpense
 
     /**

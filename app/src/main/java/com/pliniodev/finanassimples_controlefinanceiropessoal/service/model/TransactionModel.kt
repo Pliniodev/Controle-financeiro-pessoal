@@ -3,6 +3,7 @@ package com.pliniodev.finanassimples_controlefinanceiropessoal.service.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.math.BigDecimal
 
 @Entity(tableName = "Transactions")
 data class TransactionModel (
@@ -21,7 +22,7 @@ data class TransactionModel (
     var description: String,
 
     @ColumnInfo(name = "price")
-    var price: Double,
+    var price: String,
 
     @ColumnInfo(name = "category")
     var category: String,
@@ -37,4 +38,7 @@ data class TransactionModel (
 
     @ColumnInfo(name = "observation")
     var observation: String = ""
-)
+) {
+    val priceInBigDecimal : BigDecimal
+        get() = price.replace("[R$,.\\s]".toRegex() , "").toBigDecimal()
+}
