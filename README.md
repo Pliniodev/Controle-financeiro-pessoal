@@ -1,4 +1,4 @@
-# App para Controle financeiro pessoal
+# App para Controle financeiro pessoal - EM ANDAMENTO
 
 ## Descrição
 
