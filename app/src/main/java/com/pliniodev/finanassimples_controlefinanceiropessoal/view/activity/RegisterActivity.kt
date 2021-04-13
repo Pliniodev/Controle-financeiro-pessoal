@@ -28,8 +28,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private var mMes = 0
     private var mCalendar = Calendar.getInstance()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)

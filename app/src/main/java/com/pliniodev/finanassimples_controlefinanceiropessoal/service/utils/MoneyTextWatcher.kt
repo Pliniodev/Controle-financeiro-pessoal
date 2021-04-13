@@ -22,7 +22,7 @@ class MoneyTextWatcher(editText: EditText?) : TextWatcher {
         if (s.isEmpty()) return
         editText.removeTextChangedListener(this)
 
-        val cleanString = s.replace("[R$,.]".toRegex(), "")
+        val cleanString = s.replace("[R$,.\\s]".toRegex(), "")
 
         val parsed: BigDecimal = BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR)
             .divide(BigDecimal(100), BigDecimal.ROUND_FLOOR)

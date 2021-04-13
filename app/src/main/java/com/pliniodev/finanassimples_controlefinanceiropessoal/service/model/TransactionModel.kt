@@ -39,6 +39,7 @@ data class TransactionModel (
     @ColumnInfo(name = "observation")
     var observation: String = ""
 ) {
+    //Conversão de String para BigDecimal
     val priceInBigDecimal : BigDecimal
         get() = price.replace("[R$,.\\s]".toRegex() , "").toBigDecimal()
 }
