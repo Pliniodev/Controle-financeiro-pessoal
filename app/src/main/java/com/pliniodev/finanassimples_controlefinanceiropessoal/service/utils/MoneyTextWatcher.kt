@@ -12,6 +12,7 @@ import java.util.*
 class MoneyTextWatcher(editText: EditText?) : TextWatcher {
 
     private val editTextWeakReference: WeakReference<EditText> = WeakReference<EditText>(editText)
+
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
@@ -20,7 +21,8 @@ class MoneyTextWatcher(editText: EditText?) : TextWatcher {
         val s = editable.toString()
         if (s.isEmpty()) return
         editText.removeTextChangedListener(this)
-        val cleanString = s.replace("[R$\\s,.]".toRegex(), "")
+
+        val cleanString = s.replace("[R$,.\\s]".toRegex(), "")
 
         val parsed: BigDecimal = BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR)
             .divide(BigDecimal(100), BigDecimal.ROUND_FLOOR)

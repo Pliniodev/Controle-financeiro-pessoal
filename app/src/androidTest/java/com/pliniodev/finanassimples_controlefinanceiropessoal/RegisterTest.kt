@@ -39,18 +39,17 @@ class RegisterTest {
     @Test
     @Throws(Exception::class)
     fun testRegisterTransaction(){
-        var t1 : TransactionModel = TransactionModel().apply {
-            transactionType = false
-            name = "Nome da receita de teste"
-            price = 200.0
-            description = "teste de descrição"
-            category = "Conta simples"
-            dueDate = "11/04/21"
-            dueDateMonth = 4
-            paidOut = true
+        var t1 : TransactionModel = TransactionModel(
+            transactionType = false,
+            name = "Nome da receita de teste",
+            price = "200.0",
+            description = "Teste de descrição",
+            category = "Conta simples",
+            dueDate = "11/04/21",
+            dueDateMonth = 4,
+            paidOut = true,
             observation = "observação de teste 1"
-
-        }
+        )
         var result = false
         var linesInTableToSave = transactionDAO.save(t1)
         if (linesInTableToSave > 0) {
