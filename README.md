@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Neste aplicativo estou experimentando alguns conhecimentos adquiridos em cursos da udemy. Por ser um projeto para estudos, existem comentários apenas para que eu possa identificar o que determinado código faz.
+Neste aplicativo estou experimentando alguns conhecimentos adquirido. Por ser um projeto para estudos, existem comentários apenas para que eu possa identificar o que determinado código faz. Esou fazendo em horas vagas.
 
 Tecnologias aplicadas
 * Kotlin
